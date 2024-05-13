@@ -39,13 +39,10 @@ export const SideBar: FC<SideBarProps> = ({ links }) => {
     <div>
       <Sidebar className="h-screen">
         <div className="flex flex-col justify-between h-full">
-          <div>{links ? <Links /> : null}</div>
+          <div className="w-full">{links ? <Links /> : null}</div>
           <div className="self-center pb-8 text-2xl ">Matheus Ltda</div>
         </div>
       </Sidebar>
     </div>
-    // <div className="h-screen" style={{ backgroundColor: "#3182ce" }}>
-    //   <div className="pt-8">{links ? <Links /> : null}</div>
-    // </div>
   );
 };
