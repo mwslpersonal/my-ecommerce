@@ -48,6 +48,12 @@ export const ProductModal: FC<ProductModalProps> = ({
     setBarcode(barcodeValue);
   };
 
+  const cleanData = () => {
+    setBarcode("");
+    setProductName("");
+    setQuantity(0);
+  };
+
   const saveData = () => {
     const newData = {
       name: productName!,
@@ -63,6 +69,8 @@ export const ProductModal: FC<ProductModalProps> = ({
         ...newData,
       });
     }
+
+    cleanData();
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

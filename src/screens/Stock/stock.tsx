@@ -103,7 +103,7 @@ export const Stock = () => {
               onOpen();
             }}
           >
-            Adicionar novo
+            Novo produto
           </Button>
         </div>
       </div>

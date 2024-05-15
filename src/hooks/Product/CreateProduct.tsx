@@ -19,7 +19,6 @@ export const useCreateProduct = () => {
       return Promise.resolve(stocks);
     },
     onSuccess: (data: Product[]) => {
-      console.log("entrei");
       queryClient.setQueryData(["product"], data);
     },
   });
