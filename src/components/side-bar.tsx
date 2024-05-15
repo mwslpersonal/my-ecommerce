@@ -1,7 +1,8 @@
+import { Integrations } from "@/utils/enums/integrations";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC } from "react";
-import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
+import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
 
 type SideBarProps = {
   links?: { label: string; href: string }[];
@@ -32,6 +33,21 @@ export const SideBar: FC<SideBarProps> = ({ links }) => {
             {link.label}
           </MenuItem>
         ))}
+
+        <SubMenu label="Integração">
+          <MenuItem
+            className={`${
+              currPathName === `integration/${Integrations.MERCADO_LIVRE}`
+                ? "bg-slate-100"
+                : ""
+            }`}
+            component={
+              <Link href={`integration/${Integrations.MERCADO_LIVRE}`} />
+            }
+          >
+            Mercado Livre
+          </MenuItem>
+        </SubMenu>
       </Menu>
     );
   };

@@ -18,7 +18,7 @@ export const useUpdateKit = () => {
       return Promise.resolve(kits);
     },
     onSuccess: (kits: Kit[]) => {
-      queryClient.setQueryData(["kits"], kits);
+      queryClient.setQueryData(["kits", "product"], kits);
     },
   });
 };
