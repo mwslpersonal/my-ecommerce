@@ -8,4 +8,6 @@ export type Kit = {
     quantity: string;
   }[];
   quantity: string;
+  images: string[];
+  description?: string;
 };

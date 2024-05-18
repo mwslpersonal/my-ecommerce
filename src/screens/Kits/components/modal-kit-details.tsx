@@ -11,6 +11,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
+import { PreviewImages } from "./preview-images";
 
 type ModalKitDetailsProps = {
   isOpen: boolean;
@@ -72,7 +73,7 @@ export const ModalKitDetails: FC<ModalKitDetailsProps> = ({
               </p>
             </div>
 
-            <div>
+            <div className="mb-4">
               <div className="mb-2">
                 <h3>Produtos</h3>
               </div>
@@ -83,6 +84,14 @@ export const ModalKitDetails: FC<ModalKitDetailsProps> = ({
                 ])}
                 headers={["Nome do produto", "Quantidade"]}
               ></Table>
+            </div>
+
+            <div className="mb-2">
+              <h3>Imagens</h3>
+            </div>
+
+            <div className="mb-4">
+              <PreviewImages images={kit.images} />
             </div>
           </div>
         </ModalBody>

@@ -2,6 +2,11 @@ import { useProducts } from "@/hooks";
 import { useCreateKit } from "@/hooks/Kits/CreateKits";
 import { useUpdateKit } from "@/hooks/Kits/UpdateKit";
 import { Kit } from "@/models";
+import {
+  convertMultiplesToBase64,
+  convertMultiplesToFile,
+  loadToInputFiled,
+} from "@/utils/helpers";
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Modal,
@@ -15,9 +20,13 @@ import {
   Select,
   ButtonGroup,
   IconButton,
+  Textarea,
+  Image,
 } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { v4 } from "uuid";
+import { PreviewImages } from "./preview-images";
+import { InputFile } from "@/components";
 
 type ModalKitCreateProps = {
   isOpen: boolean;
@@ -36,11 +45,17 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
   >([]);
   const [kitName, setKitName] = useState<string>("");
   const [kitQuantity, setKitQuantity] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
-    setKitName(kit?.name!);
-    setKitQuantity(kit?.quantity!);
-    setSelectProducts(kit?.products!);
+    if (kit) {
+      setKitName(kit.name);
+      setKitQuantity(kit.quantity);
+      setSelectProducts(kit.products);
+      setDescription(kit?.description ?? "");
+      setImages(kit.images);
+    }
   }, [kit]);
 
   const onAddProduct = () => {
@@ -84,6 +99,8 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
       name: kitName,
       quantity: kitQuantity,
       products: selectProducts,
+      description,
+      images,
     };
 
     if (kit?.id) {
@@ -97,6 +114,12 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
         ...content,
       });
     }
+  };
+
+  const saveImages = async (files: FileList | null) => {
+    if (!files) return;
+    const convertedFiles = await convertMultiplesToBase64(files);
+    setImages(convertedFiles);
   };
 
   return (
@@ -141,7 +164,7 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
             <h3>Produtos</h3>
           </div>
 
-          <div className="pb-4">
+          <div className="mb-3">
             {selectProducts?.map((_, index) => (
               <div key={index} className="pb-4 flex">
                 <div className="w-2/3 mr-3">
@@ -196,6 +219,38 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
                 {" "}
                 Adicionar produto{" "}
               </Button>
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <Textarea
+              placeholder="Descrição do produto"
+              maxLength={500}
+              value={description}
+              onChange={(ev) => setDescription(ev.target.value)}
+            ></Textarea>
+          </div>
+
+          <div className="mb-4">
+            <div className="mb-3">
+              {/* <Input
+                ref={inputImageRef}
+                type="file"
+                multiple={true}
+                accept=".png, .jpg, .jpeg"
+                onChange={(ev) => saveImages(ev.target.files)}
+              /> */}
+              <InputFile
+                label="Adicionar imagens"
+                setImages={saveImages}
+                multiple={true}
+                accept=".png, .jpg, .jpeg"
+                images={convertMultiplesToFile(images)}
+              />
+            </div>
+
+            <div>
+              {images?.length ? <PreviewImages images={images} /> : null}
             </div>
           </div>
         </ModalBody>
