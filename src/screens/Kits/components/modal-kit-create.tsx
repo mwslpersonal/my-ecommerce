@@ -5,7 +5,6 @@ import { Kit } from "@/models";
 import {
   convertMultiplesToBase64,
   convertMultiplesToFile,
-  loadToInputFiled,
 } from "@/utils/helpers";
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
@@ -16,17 +15,18 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  Input,
   Select,
   ButtonGroup,
   IconButton,
-  Textarea,
-  Image,
 } from "@chakra-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 import { v4 } from "uuid";
-import { PreviewImages } from "./preview-images";
-import { InputFile } from "@/components";
+import {
+  InputFile,
+  LabeledInput,
+  LabeledTextarea,
+  PreviewImages,
+} from "@/components";
 
 type ModalKitCreateProps = {
   isOpen: boolean;
@@ -117,7 +117,7 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
   };
 
   const saveImages = async (files: FileList | null) => {
-    if (!files) return;
+    if (!files?.length) return;
     const convertedFiles = await convertMultiplesToBase64(files);
     setImages(convertedFiles);
   };
@@ -141,16 +141,16 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
 
           <div className="mb-6">
             <div className="mb-4">
-              <Input
-                placeholder="Nome do kit"
+              <LabeledInput
+                label="Nome do kit:"
                 value={kitName}
                 onChange={(ev) => setKitName(ev.target.value)}
               />
             </div>
 
             <div>
-              <Input
-                placeholder="Quantidade"
+              <LabeledInput
+                label="Quantidade:"
                 min={0}
                 step={1}
                 type="number"
@@ -188,8 +188,8 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
                 </div>
 
                 <div className="w-1/3 mr-3">
-                  <Input
-                    placeholder="Quantidade"
+                  <LabeledInput
+                    label="Quantidade:"
                     min={0}
                     step={1}
                     type="number"
@@ -223,29 +223,23 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
           </div>
 
           <div className="mb-3">
-            <Textarea
-              placeholder="Descrição do produto"
+            <LabeledTextarea
+              label="Descrição do produto:"
+              placeholder="Máximo de 500 caracteres"
               maxLength={500}
               value={description}
               onChange={(ev) => setDescription(ev.target.value)}
-            ></Textarea>
+            />
           </div>
 
           <div className="mb-4">
             <div className="mb-3">
-              {/* <Input
-                ref={inputImageRef}
-                type="file"
-                multiple={true}
-                accept=".png, .jpg, .jpeg"
-                onChange={(ev) => saveImages(ev.target.files)}
-              /> */}
               <InputFile
                 label="Adicionar imagens"
                 setImages={saveImages}
                 multiple={true}
                 accept=".png, .jpg, .jpeg"
-                images={convertMultiplesToFile(images)}
+                images={convertMultiplesToFile(images?.length ? images : [])}
               />
             </div>
 

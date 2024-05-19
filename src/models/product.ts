@@ -4,4 +4,5 @@ export interface Product {
   barcode: string;
   quantity: number;
   description?: string;
+  images: string[];
 }

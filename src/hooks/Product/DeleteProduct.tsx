@@ -7,13 +7,13 @@ export const useDeleteProduct = () => {
   return useMutation({
     mutationKey: ["product"],
     mutationFn: (id: string) => {
-      const stock = JSON.parse(window.localStorage.getItem("stocks") ?? "[]");
+      const stock = JSON.parse(
+        window.localStorage.getItem("stocks") ?? "[]"
+      ) as Product[];
+
       if (!stock.length) return Promise.reject(false);
 
-      const productIndex = stock.find((product: Product) => product.id === id);
-      if (productIndex === -1) return Promise.reject(false);
-
-      const newStock = stock.splice(productIndex, 1);
+      const newStock = stock.filter((product) => product.id !== id);
       window.localStorage.setItem("stocks", JSON.stringify(newStock));
       return Promise.resolve(newStock);
     },

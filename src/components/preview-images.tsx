@@ -9,20 +9,20 @@ type PreviewImagesProps = {
 
 export const PreviewImages: FC<PreviewImagesProps> = ({
   images,
-  columnNumber = 2,
+  columnNumber = 3,
 }) => {
   return (
-    <div className={`grid grid-cols-${columnNumber}`}>
+    <div
+      className="grid gap-3"
+      style={{ gridTemplateColumns: `repeat(${columnNumber}, minmax(0, 1fr))` }}
+    >
       {images.map((image, index) => (
-        <div
+        <Image
+          src={URL.createObjectURL(base64ToFile(image))}
+          alt={`Product image #${index + 1}`}
           key={index}
-          className="mx-2 my-2 w-24 h-24 hover:h-full hover:w-full"
-        >
-          <Image
-            src={URL.createObjectURL(base64ToFile(image))}
-            alt={`Product image #${index + 1}`}
-          />
-        </div>
+          className="w-24 h-24"
+        />
       ))}
     </div>
   );

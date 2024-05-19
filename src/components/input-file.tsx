@@ -22,8 +22,12 @@ export const InputFile: FC<InputFileProps> = ({
 
   useEffect(() => {
     setNumberOfImages(images?.length ?? 0);
-    if (images && inputImageRef.current) {
-      inputImageRef.current.files = loadToInputFiled(images);
+    if (inputImageRef.current) {
+      if (images?.length) {
+        inputImageRef.current.files = loadToInputFiled(images);
+      } else {
+        inputImageRef.current.files = null;
+      }
     }
   }, [images]);
 

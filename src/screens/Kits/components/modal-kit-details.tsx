@@ -1,6 +1,6 @@
-import { Table } from "@/components";
+import { PreviewImages, Table } from "@/components";
 import { useProductsByIds } from "@/hooks";
-import { Kit, Product } from "@/models";
+import { Kit } from "@/models";
 import {
   Modal,
   ModalOverlay,
@@ -11,7 +11,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
-import { PreviewImages } from "./preview-images";
 
 type ModalKitDetailsProps = {
   isOpen: boolean;
