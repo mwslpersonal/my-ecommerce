@@ -24,6 +24,7 @@ import { v4 } from "uuid";
 import {
   InputFile,
   LabeledInput,
+  LabeledSelect,
   LabeledTextarea,
   PreviewImages,
 } from "@/components";
@@ -166,9 +167,10 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
 
           <div className="mb-3">
             {selectProducts?.map((_, index) => (
-              <div key={index} className="pb-4 flex">
+              <div key={index} className="pb-4 flex items-end">
                 <div className="w-2/3 mr-3">
-                  <Select
+                  <LabeledSelect
+                    label="Nome do produto"
                     placeholder="Selecione um produto"
                     onChange={(ev) =>
                       onProductChange({
@@ -184,7 +186,7 @@ export const ModalKitCreate: FC<ModalKitCreateProps> = ({
                         {product.name}
                       </option>
                     ))}
-                  </Select>
+                  </LabeledSelect>
                 </div>
 
                 <div className="w-1/3 mr-3">
